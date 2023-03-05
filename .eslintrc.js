@@ -2,12 +2,17 @@ module.exports = {
   env: {
     browser: true,
     es2021: true,
+    node: true,
+    es2020: true,
   },
   extends: ['plugin:react/recommended', 'airbnb'],
   overrides: [],
   parserOptions: {
-    ecmaVersion: 'latest',
+    ecmaVersion: 2020,
     sourceType: 'module',
+    ecmaFeatures: {
+      jsx: true,
+    },
   },
   plugins: ['react'],
   rules: {
@@ -17,6 +22,8 @@ module.exports = {
     'linebreak-style': 0,
     'react/state-in-constructor': 0,
     'import/prefer-default-export': 0,
+    'comma-dangle': [2, 'always-multiline'],
+    'no-console': 0,
     'react/function-component-definition': [
       2,
       {
