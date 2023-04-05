@@ -5,7 +5,6 @@ import { useGetMoviesQuery } from '../../services/TMDB';
 import MovieList from '../MovieList/MovieList';
 
 const Movies = () => {
-  console.log('Movies');
   const { data, error, isFetching } = useGetMoviesQuery();
 
   if (isFetching) {
@@ -27,9 +26,7 @@ const Movies = () => {
       </Box>
     );
   }
-
   if (error) return 'An error has occured.';
-
   return (
     <div>
       <MovieList movies={data} />
