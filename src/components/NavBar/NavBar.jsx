@@ -1,18 +1,40 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { AppBar, IconButton, Toolbar, Drawer, Button, Avatar, useMediaQuery, Icon } from '@mui/material';
 import { Menu, AccountCircle, Brightness4, Brightness7 } from '@mui/icons-material';
 import { Link } from 'react-router-dom';
 import { useTheme } from '@mui/material/styles';
+import { useDispatch, useSelector } from 'react-redux';
 import makeStyles from './styles';
 import Sidebar from '../Sidebar/Sidebar';
 import Search from '../Search/Search';
+import { fetchToken, createSessionId, moviesApi } from '../../utils';
+import { setUser, userSelector } from '../../features/auth';
 
 const NavBar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const classes = makeStyles();
   const theme = useTheme();
-  const isAuthenticated = true;
   const isMobile = useMediaQuery('(max-width:600px');
+  const dispatch = useDispatch();
+  const { isAuthenticated, user } = useSelector(userSelector);
+
+  const token = localStorage.getItem('request_token');
+  let sessionId = localStorage.getItem('session_id');
+  useEffect(() => {
+    const logInUser = async () => {
+      if (token) {
+        if (sessionId) {
+          const { data: userData } = await moviesApi.get(`/account?session_id=${sessionId}`);
+          dispatch(setUser(userData));
+        } else {
+          sessionId = await createSessionId();
+          const { data: userData } = await moviesApi.get(`/account?session_id=${sessionId}`);
+          dispatch(setUser(userData));
+        }
+      }
+    };
+    logInUser();
+  }, [token]);
   return (
     <>
       <AppBar position="fixed">
@@ -40,7 +62,7 @@ const NavBar = () => {
             {!isAuthenticated ? (
               <Button
                 color="inherit"
-                onClick={() => {}}
+                onClick={fetchToken}
               >
                 Login &nbsp; <AccountCircle />
               </Button>
@@ -48,7 +70,7 @@ const NavBar = () => {
               <Button
                 color="inherit"
                 component={Link}
-                to="/profile/:123"
+                to={`/profile/${user.id}`}
                 className={classes.LinkButton}
                 onClick={() => {}}
               >
