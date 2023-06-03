@@ -66,13 +66,7 @@ const MovieInformation = () => {
             </Link>
           ))}
         </Grid>
-        <Typography variant="h5" gutterBottom style={{ marginTop: '10px' }}>
-          Overview
-        </Typography>
-        <Typography style={{ marginBottom: '2rem' }}>{data?.overview}</Typography>
-        <Typography variant="h5" gutterBottom>
-          Top Cast
-        </Typography>
+
         <Grid item container spacing={2}>
           {data &&
             data.credits?.cast?.map(
