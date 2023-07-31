@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Modal, Typography, Button, ButtonGroup, Grid, Box, CircularProgress, useMediaQuery, Rating } from '@mui/material';
 import { Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, FavoriteBorderOutlined, Remove, ArrowBack, Add } from '@mui/icons-material';
 import { Link, useParams } from 'react-router-dom';
@@ -16,12 +16,17 @@ const MovieInformation = () => {
   const { data: recommendations, isFetching: isRecommendationsFetching } = useGetRecommendationsQuery({ list: '/recommendations', movieId: id });
   const classes = useStyles();
   const dispatch = useDispatch();
+  const [open, setOpen] = useState(false);
 
   const isMovieFavorited = true;
   const isMovieWatchListed = true;
 
   const addToFavorites = () => {};
   const addToWatchList = () => {};
+
+  const showModal = () => {
+    setOpen(true);
+  };
 
   if (isFetching || isRecommendationsFetching) {
     return (
@@ -105,7 +110,13 @@ const MovieInformation = () => {
                 <Button target="_blank" rel="noopener noreferrer" href={`https://www.imdb.com/title/${data?.imdb_id}`} endIcon={<MovieIcon />}>
                   IMDB
                 </Button>
-                <Button onClick={() => {}} href="#" endIcon={<Theaters />}>
+                <Button
+                  onClick={() => {
+                    showModal();
+                  }}
+                  href="#"
+                  endIcon={<Theaters />}
+                >
                   Trailer
                 </Button>
               </ButtonGroup>
@@ -134,6 +145,9 @@ const MovieInformation = () => {
         </Typography>
         {recommendations ? <MovieList movies={recommendations} numberOfMovies={12} /> : <Box>Sorry, no result found</Box>}
       </Box>
+      <Modal open={open} onClose={() => setOpen(false)} closeAfterTransition className={classes.modal}>
+        {data.videos.results.length > 0 && <iframe autoPlay className={classes.video} frameBorder="0" title="Trailer" src={`https://youtube.com/embed/${data.videos.results[0].key}`} allow="autoplay" />}
+      </Modal>
     </Grid>
   );
 };

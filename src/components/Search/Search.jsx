@@ -7,7 +7,6 @@ import useStyles from './styles';
 import { searchMovie } from '../../features/currentGenreOrCategory';
 
 const Search = () => {
-  console.log('Search');
   const classes = useStyles();
   const [query, setQuery] = useState('');
   const dispatch = useDispatch();
