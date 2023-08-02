@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import { Modal, Typography, Button, ButtonGroup, Grid, Box, CircularProgress, useMediaQuery, Rating } from '@mui/material';
-import { Movie as MovieIcon, Theaters, Language, PlusOne, Favorite, FavoriteBorderOutlined, Remove, ArrowBack, Add } from '@mui/icons-material';
+import { Modal, Typography, Button, ButtonGroup, Grid, Box, CircularProgress, Rating } from '@mui/material';
+import { Movie as MovieIcon, Theaters, Language, Favorite, FavoriteBorderOutlined, Remove, ArrowBack, Add } from '@mui/icons-material';
 import { Link, useParams } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
-import axios from 'axios';
+import { useDispatch } from 'react-redux';
 import { useGetMovieQuery, useGetRecommendationsQuery } from '../../services/TMDB';
 import useStyles from './styles';
 import genreIcons from '../../assets/genres';
@@ -11,7 +10,7 @@ import { selectGenreOrCategory } from '../../features/currentGenreOrCategory';
 import { MovieList } from '..';
 
 const MovieInformation = () => {
-  const id = useParams();
+  const { id } = useParams();
   const { data, isFetching, error } = useGetMovieQuery(id);
   const { data: recommendations, isFetching: isRecommendationsFetching } = useGetRecommendationsQuery({ list: '/recommendations', movieId: id });
   const classes = useStyles();
