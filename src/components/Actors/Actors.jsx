@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { Box, CircularProgress, Grid, Typography, ButtonGroup, Button } from '@mui/material';
 import { ArrowBack } from '@mui/icons-material';
 import { Link, useParams, useHistory } from 'react-router-dom';
-import { useGetActorDetailsQuery, useGetMoviesByActorIdQuery } from '../../services/TMDB';
+import { useGetActorsDetailsQuery, useGetMoviesByActorIdQuery } from '../../services/TMDB';
 import useStyles from './styles';
 import { Pagination, MovieList } from '..';
 
@@ -10,11 +10,11 @@ const Actors = () => {
   const [page, setPage] = useState(1);
   const { id } = useParams();
   const history = useHistory();
-  const { data, isFetching, error } = useGetActorDetailsQuery(id);
+  const { data, isFetching, error } = useGetActorsDetailsQuery(id);
   const { data: actorMovies, isFetching: isActorMoviesFetching } = useGetMoviesByActorIdQuery({ id, page });
   const classes = useStyles();
 
-  if ((isFetching, isActorMoviesFetching)) {
+  if (isFetching) {
     return (
       <Box display="flex" justifyContent="center" alignItems="center">
         <CircularProgress size="8rem" />
