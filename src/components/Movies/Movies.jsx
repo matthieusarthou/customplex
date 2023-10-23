@@ -14,7 +14,10 @@ const Movies = () => {
 
   if (isFetching) {
     return (
-      <Box display="flex" justifyContent="center">
+      <Box
+        display="flex"
+        justifyContent="center"
+      >
         <CircularProgress size="4rem" />
       </Box>
     );
@@ -22,7 +25,10 @@ const Movies = () => {
 
   if (!data?.results?.length) {
     return (
-      <Box display="flex" alignItems="center">
+      <Box
+        display="flex"
+        alignItems="center"
+      >
         <Typography variant="h4">
           No movies that match that name.
           <br />
@@ -36,8 +42,16 @@ const Movies = () => {
   return (
     <div>
       <FeaturedMovie movie={data.results[0]} />
-      <MovieList movies={data} numberOfMovies={numberOfMovies} excludeFirst />
-      <Pagination currentPage={page} setPage={setPage} totalPages={data.total_pages} />
+      <MovieList
+        movies={data}
+        numberOfMovies={numberOfMovies}
+        excludeFirst
+      />
+      <Pagination
+        currentPage={page}
+        setPage={setPage}
+        totalPages={data.total_pages}
+      />
     </div>
   );
 };
